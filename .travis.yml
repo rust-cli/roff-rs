@@ -1,0 +1,4 @@
+language: rust
+notifications:
+  email:
+    on_success: never
