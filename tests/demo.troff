@@ -1,0 +1,16 @@
+.TH CORRUPT 1
+.SH NAME
+corrupt \- modify files by randomly changing bits
+.SH SYNOPSIS
+.B corrupt
+[\fB\-n\fR \fIBITS\fR]
+[\fB\-\-bits\fR \fIBITS\fR]
+.IR file ...
+.SH DESCRIPTION
+.B corrupt
+modifies files by toggling a randomly chosen bit.
+.SH OPTIONS
+.TP
+.BR \-n ", " \-\-bits =\fIBITS\fR
+Set the number of bits to modify.
+Default is one bit.
