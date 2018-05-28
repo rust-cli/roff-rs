@@ -2,6 +2,12 @@
 name = "roff"
 version = "0.1.0"
 authors = ["Pascal Hertleif <killercup@gmail.com>"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/killercup/roff-rs"
+homepage = "https://github.com/killercup/roff-rs"
+documentation = "https://docs.rs/roff"
+description = "ROFF (man page format) generation library"
+readme = "README.md"
 
 [dependencies]
 
