@@ -2,12 +2,12 @@
 
 [![Build Status](https://travis-ci.org/killercup/roff-rs.svg)][Travis]
 [![Documentation](https://img.shields.io/badge/docs-master-blue.svg)][Documentation]
-![License](https://img.shields.io/crates/l/roff-rs.svg)
-[![crates.io](https://img.shields.io/crates/v/roff-rs.svg)][Crates.io]
+![License](https://img.shields.io/crates/l/roff.svg)
+[![crates.io](https://img.shields.io/crates/v/roff.svg)][Crates.io]
 
 [Travis]: https://travis-ci.org/killercup/roff-rs
-[Crates.io]: https://crates.io/crates/roff-rs
-[Documentation]: https://docs.rs/roff-rs
+[Crates.io]: https://crates.io/crates/roff
+[Documentation]: https://docs.rs/roff/
 
 [Roff](http://man7.org/linux/man-pages/man7/roff.7.html) generation library.
 
