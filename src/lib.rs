@@ -80,11 +80,11 @@ impl<C: Troffable> Troffable for Vec<C> {
 }
 
 pub fn bold(input: &str) -> String {
-    format!(r"\fB{}\fR", input)
+    format!(r"\fB{}\fP", input)
 }
 
 pub fn italic(input: &str) -> String {
-    format!(r"\fI{}\fR", input)
+    format!(r"\fI{}\fP", input)
 }
 
 pub fn list<'c1, 'c2, C1: Troffable, C2: Troffable>(header: &'c1 [C1], content: &'c2 [C2]) -> String {
