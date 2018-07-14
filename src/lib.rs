@@ -16,9 +16,13 @@ impl Roff {
         }
     }
 
-    pub fn section<'a, C: Troffable>(mut self, title: &str, content: &'a [C]) -> Self {
+    pub fn section<'a, C, I>(mut self, title: &str, content: I) -> Self
+    where
+        I: IntoIterator<Item = &'a C>,
+        C: Troffable + 'a,
+    {
         let title = title.into();
-        let content = content.iter().map(Troffable::render).collect();
+        let content = content.into_iter().map(|x| x.render()).collect();
 
         self.content.push(Section { title, content });
         self
