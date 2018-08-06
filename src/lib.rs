@@ -16,9 +16,13 @@ impl Roff {
         }
     }
 
-    pub fn section<'a, C: Troffable>(mut self, title: &str, content: &'a [C]) -> Self {
+    pub fn section<'a, C, I>(mut self, title: &str, content: I) -> Self
+    where
+        I: IntoIterator<Item = &'a C>,
+        C: Troffable + 'a,
+    {
         let title = title.into();
-        let content = content.iter().map(Troffable::render).collect();
+        let content = content.into_iter().map(|x| x.render()).collect();
 
         self.content.push(Section { title, content });
         self
@@ -29,7 +33,12 @@ impl Troffable for Roff {
     fn render(&self) -> String {
         let mut res = String::new();
 
-        writeln!(&mut res, ".TH {} {}", self.title.to_uppercase(), self.section).unwrap();
+        writeln!(
+            &mut res,
+            ".TH {} {}",
+            self.title.to_uppercase(),
+            self.section
+        ).unwrap();
         for section in &self.content {
             writeln!(&mut res, "{}", escape(&section.render())).unwrap();
         }
@@ -60,11 +69,15 @@ pub trait Troffable {
 }
 
 impl Troffable for String {
-    fn render(&self) -> String { self.clone() }
+    fn render(&self) -> String {
+        self.clone()
+    }
 }
 
 impl<'a> Troffable for &'a str {
-    fn render(&self) -> String { self.to_string() }
+    fn render(&self) -> String {
+        self.to_string()
+    }
 }
 
 impl<'a, C: Troffable> Troffable for &'a [C] {
@@ -87,7 +100,10 @@ pub fn italic(input: &str) -> String {
     format!(r"\fI{}\fP", input)
 }
 
-pub fn list<'c1, 'c2, C1: Troffable, C2: Troffable>(header: &'c1 [C1], content: &'c2 [C2]) -> String {
+pub fn list<'c1, 'c2, C1: Troffable, C2: Troffable>(
+    header: &'c1 [C1],
+    content: &'c2 [C2],
+) -> String {
     format!(".TP\n{}\n{}", header.render(), content.render())
 }
 
