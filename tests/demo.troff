@@ -1,4 +1,4 @@
-.TH CORRUPT 1
+.TH CORRUPT 1 "January 2019" "3.8.0" "User Commands"
 .SH NAME
 corrupt \- modify files by randomly changing bits
 .SH SYNOPSIS

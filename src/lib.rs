@@ -2,15 +2,15 @@ use std::fmt::Write;
 
 #[derive(PartialEq, Eq)]
 pub struct Roff {
-    title: String,
+    title_string: Vec<&'static str>,
     section: i8,
     content: Vec<Section>,
 }
 
 impl Roff {
-    pub fn new(title: &str, section: i8) -> Self {
+    pub fn new(title_string: Vec<&'static str>, section: i8) -> Self {
         Roff {
-            title: title.into(),
+            title_string: title_string,
             section,
             content: Vec::new(),
         }
@@ -32,13 +32,16 @@ impl Roff {
 impl Troffable for Roff {
     fn render(&self) -> String {
         let mut res = String::new();
+        res.push_str(".TH ");
+        for element in &self.title_string {
+            if element.len() > 1 {
+                res.push_str(format!("\"{}\" ", element).as_str());
+            } else {
+                res.push_str(format!("{} ", element).as_str());
+            }
+        }
 
-        writeln!(
-            &mut res,
-            ".TH {} {}",
-            self.title.to_uppercase(),
-            self.section
-        ).unwrap();
+        writeln!(&mut res, "\n").unwrap();
         for section in &self.content {
             writeln!(&mut res, "{}", escape(&section.render())).unwrap();
         }
