@@ -12,5 +12,5 @@ readme = "README.md"
 [dependencies]
 
 [dev-dependencies]
-pretty_assertions = "0.5.1"
-duct = "0.10.0"
+pretty_assertions = "0.6.1"
+duct = "0.12.0"
