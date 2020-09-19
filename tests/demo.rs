@@ -4,7 +4,7 @@ extern crate duct;
 
 fn roff_to_ascii(input: &str) -> String {
     duct::cmd("troff", &["-a", "-mman"])
-        .input(input)
+        .stdin_bytes(input)
         .stdout_capture()
         .read()
         .unwrap()
