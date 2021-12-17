@@ -1,14 +1,23 @@
-extern crate duct;
+use std::{
+    io::Write,
+    process::{Command, Stdio},
+};
+
 use roff::*;
-#[macro_use]
-extern crate pretty_assertions;
 
 fn roff_to_ascii(input: &str) -> String {
-    duct::cmd("troff", &["-a", "-mman"])
-        .stdin_bytes(input)
-        .stdout_capture()
-        .read()
-        .unwrap()
+    let mut cmd = Command::new("troff")
+        .args(["-a", "-mman"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .spawn()
+        .unwrap();
+
+    if let Some(ref mut stdin) = cmd.stdin {
+        stdin.write_all(input.as_bytes()).unwrap();
+    }
+
+    String::from_utf8(cmd.wait_with_output().unwrap().stdout).unwrap()
 }
 
 #[test]
