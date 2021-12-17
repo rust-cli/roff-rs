@@ -193,6 +193,6 @@ pub fn list<C1: Troffable, C2: Troffable>(header: &[C1], content: &[C2]) -> Stri
     format!(".TP\n{}\n{}", header.render(), content.render())
 }
 
-fn escape(input: &str) -> String {
+pub fn escape(input: &str) -> String {
     input.replace("-", r"\-")
 }
