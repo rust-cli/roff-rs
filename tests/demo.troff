@@ -1,16 +1,11 @@
 .TH "CORRUPT" "1" "2021-12-25" "corrupt v1" "General Commands Manual"
-.SH NAME
+.SH "NAME"
 corrupt \- modify files by randomly changing bits
-.SH SYNOPSIS
-.B corrupt
-[\fB\-n\fR \fIBITS\fR]
-[\fB\-\-bits\fR \fIBITS\fR]
-.IR file ...
-.SH DESCRIPTION
-.B corrupt
-modifies files by toggling a randomly chosen bit.
-.SH OPTIONS
+.SH "SYNOPSIS"
+\fBcorrupt\fP [\fB\-n\fP \fIBITS\fP] [\fB\-\-bits\fP \fIBITS\fP] \fIfile\fP...
+.SH "DESCRIPTION"
+\fBcorrupt\fP modifies files by toggling a randomly chosen bit.
+.SH "OPTIONS"
 .TP
-.BR \-n ", " \-\-bits =\fIBITS\fR
-Set the number of bits to modify.
-Default is one bit.
+\fB\-n\fP, \fB\-\-bits\fP=\fIBITS\fP
+Set the number of bits to modify. Default is one bit.
