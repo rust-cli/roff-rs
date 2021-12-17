@@ -16,6 +16,9 @@ fn demo() {
     use roff::*;
 
     let page = Roff::new("corrupt", 1)
+        .date("2021-12-25")
+        .manual("General Commands Manual")
+        .source("corrupt v1")
         .section(
             "name",
             &["corrupt - modify files by randomly changing bits"],

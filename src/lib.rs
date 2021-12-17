@@ -1,19 +1,75 @@
 use std::fmt::Write;
 
 #[derive(PartialEq, Eq)]
-pub struct Roff {
+/// Title line for a manpage.
+pub struct Title {
     title: String,
     section: i8,
+    date: Option<String>,
+    source: Option<String>,
+    manual: Option<String>,
+}
+
+impl Title {
+    pub fn new(title: &str, section: i8) -> Self {
+        Title {
+            title: title.into(),
+            section,
+            date: None,
+            source: None,
+            manual: None,
+        }
+    }
+}
+
+impl Troffable for Title {
+    fn render(&self) -> String {
+        let manual = self.manual.as_deref().unwrap_or_default();
+        let date = self.date.as_deref().unwrap_or_default();
+        let source = self.source.as_deref().unwrap_or_default();
+
+        format!(
+            r#".TH "{}" "{}" "{}" "{}" "{}""#,
+            self.title.to_uppercase(),
+            self.section,
+            date,
+            source,
+            manual
+        )
+    }
+}
+
+#[derive(PartialEq, Eq)]
+pub struct Roff {
+    title: Title,
     content: Vec<Section>,
 }
 
 impl Roff {
     pub fn new(title: &str, section: i8) -> Self {
         Roff {
-            title: title.into(),
-            section,
+            title: Title::new(title, section),
             content: Vec::new(),
         }
+    }
+
+    /// Date of the last nontrivial change to the manpage. Should be formatted
+    /// in `YYYY-MM-DD`.
+    pub fn date(mut self, date: impl Into<String>) -> Self {
+        self.title.date = Some(date.into());
+        self
+    }
+
+    /// The source of the command, function or system call.
+    pub fn source(mut self, source: impl Into<String>) -> Self {
+        self.title.source = Some(source.into());
+        self
+    }
+
+    /// The title of the manual.
+    pub fn manual(mut self, manual: impl Into<String>) -> Self {
+        self.title.manual = Some(manual.into());
+        self
     }
 
     pub fn section<'a, C, I>(mut self, title: &str, content: I) -> Self
@@ -33,13 +89,8 @@ impl Troffable for Roff {
     fn render(&self) -> String {
         let mut res = String::new();
 
-        writeln!(
-            &mut res,
-            ".TH {} {}",
-            self.title.to_uppercase(),
-            self.section
-        )
-        .unwrap();
+        writeln!(&mut res, "{}", self.title.render()).unwrap();
+
         for section in &self.content {
             writeln!(&mut res, "{}", escape(&section.render())).unwrap();
         }

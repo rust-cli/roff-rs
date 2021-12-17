@@ -1,4 +1,4 @@
-.TH CORRUPT 1
+.TH "CORRUPT" "1" "2021-12-25" "corrupt v1" "General Commands Manual"
 .SH NAME
 corrupt \- modify files by randomly changing bits
 .SH SYNOPSIS
