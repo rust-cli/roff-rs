@@ -41,6 +41,7 @@ impl Troffable for Title {
 /// Manpage sections.
 ///
 /// The most common is [`ManSection::Executable`], and is the recommended default.
+#[derive(Clone, Copy)]
 pub enum ManSection {
     /// Executable programs or shell commands
     Executable,
