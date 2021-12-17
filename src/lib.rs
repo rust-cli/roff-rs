@@ -109,7 +109,7 @@ impl Troffable for Section {
     fn render(&self) -> String {
         let mut res = String::new();
 
-        writeln!(&mut res, ".SH {}", self.title.to_uppercase()).unwrap();
+        writeln!(&mut res, ".SH \"{}\"", self.title.to_uppercase()).unwrap();
         res.push_str(&self.content);
 
         res
