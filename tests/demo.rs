@@ -67,7 +67,7 @@ fn demo() {
 
     // use std::io::Write;
     // let mut f = ::std::fs::File::create("./tests/demo.generated.troff").unwrap();
-    // f.write_all(&page.render().as_bytes());
+    // f.write_all(&page.render().as_bytes()).unwrap();
 
     assert_eq!(
         roff_to_ascii(include_str!("./demo.troff")),

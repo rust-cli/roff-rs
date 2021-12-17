@@ -78,7 +78,7 @@ impl Roff {
         C: Troffable + 'a,
     {
         let title = title.into();
-        let content = content.into_iter().map(|x| x.render()).collect();
+        let content = content.into_iter().map(Troffable::render).collect();
 
         self.content.push(Section { title, content });
         self
@@ -152,7 +152,7 @@ pub fn italic(input: &str) -> String {
     format!(r"\fI{}\fP", input)
 }
 
-pub fn list<C1: Troffable, C2: Troffable>(header: &'_ [C1], content: &'_ [C2]) -> String {
+pub fn list<C1: Troffable, C2: Troffable>(header: &[C1], content: &[C2]) -> String {
     format!(".TP\n{}\n{}", header.render(), content.render())
 }
 
