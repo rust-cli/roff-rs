@@ -4,14 +4,14 @@ use std::fmt::Write;
 /// Title line for a manpage.
 pub struct Title {
     title: String,
-    section: i8,
+    section: ManSection,
     date: Option<String>,
     source: Option<String>,
     manual: Option<String>,
 }
 
 impl Title {
-    pub fn new(title: &str, section: i8) -> Self {
+    pub fn new(title: &str, section: ManSection) -> Self {
         Title {
             title: title.into(),
             section,
@@ -31,11 +31,52 @@ impl Troffable for Title {
         format!(
             r#".TH "{}" "{}" "{}" "{}" "{}""#,
             self.title.to_uppercase(),
-            self.section,
+            self.section.value(),
             date,
             source,
             manual
         )
+    }
+}
+
+/// Manpage sections.
+///
+/// The most common is [`ManSection::Executable`], and is the recommended default.
+#[derive(PartialEq, Eq)]
+pub enum ManSection {
+    /// Executable programs or shell commands
+    Executable,
+    /// System calls (functions provided by the kernel)
+    SystemCalls,
+    /// Library calls (functions within program libraries)
+    LibraryCalls,
+    /// Special files (usually found in /dev)
+    SpecialFiles,
+    /// File formats and conventions, e.g. /etc/passwd
+    FileFormats,
+    /// Games
+    Games,
+    /// Miscellaneous (including macro packages and conventions), e.g. man(7), groff(7)
+    Miscellaneous,
+    /// System administration commands (usually only for root)
+    SystemAdministrationCommands,
+    /// Kernel routines [Non standard]
+    KernelRoutines,
+}
+
+impl ManSection {
+    pub fn value(&self) -> i8 {
+        match self {
+            ManSection::Executable => 1,
+            ManSection::SystemCalls => 2,
+            ManSection::LibraryCalls => 3,
+            ManSection::SpecialFiles => 4,
+            ManSection::FileFormats => 5,
+            ManSection::Games => 6,
+            ManSection::Miscellaneous => 7,
+            ManSection::SystemAdministrationCommands => 8,
+            ManSection::KernelRoutines => 9,
+        }
     }
 }
 
@@ -46,7 +87,7 @@ pub struct Roff {
 }
 
 impl Roff {
-    pub fn new(title: &str, section: i8) -> Self {
+    pub fn new(title: &str, section: ManSection) -> Self {
         Roff {
             title: Title::new(title, section),
             content: Vec::new(),

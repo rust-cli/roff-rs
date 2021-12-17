@@ -15,7 +15,7 @@ fn roff_to_ascii(input: &str) -> String {
 fn demo() {
     use roff::*;
 
-    let page = Roff::new("corrupt", 1)
+    let page = Roff::new("corrupt", ManSection::Executable)
         .date("2021-12-25")
         .manual("General Commands Manual")
         .source("corrupt v1")
