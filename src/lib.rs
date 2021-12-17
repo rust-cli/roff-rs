@@ -130,6 +130,16 @@ impl Troffable for Roff {
 
         writeln!(&mut res, "{}", self.title.render()).unwrap();
 
+        // Compatibility settings:
+        //
+        // Set sentence_space_size to 0 to prevent extra space between sentences separated
+        // by a newline the alternative is to add \& at the end of the line
+        writeln!(&mut res, ".ss \\n[.ss] 0").unwrap();
+        // Disable hyphenation
+        writeln!(&mut res, ".nh").unwrap();
+        // Disable justification (adjust text to the left margin only)
+        writeln!(&mut res, ".ad l").unwrap();
+
         for section in &self.content {
             writeln!(&mut res, "{}", escape(&section.render())).unwrap();
         }
