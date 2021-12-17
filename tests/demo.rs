@@ -1,5 +1,5 @@
 extern crate duct;
-extern crate roff;
+use roff::*;
 #[macro_use]
 extern crate pretty_assertions;
 
@@ -13,8 +13,6 @@ fn roff_to_ascii(input: &str) -> String {
 
 #[test]
 fn demo() {
-    use roff::*;
-
     let page = Roff::new("corrupt", ManSection::Executable)
         .date("2021-12-25")
         .manual("General Commands Manual")

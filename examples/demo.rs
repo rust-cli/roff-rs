@@ -1,10 +1,8 @@
-extern crate roff;
+use roff::*;
 
 // View this example by running `cargo run --example demo | man -l -`.
 
 fn main() {
-    use roff::*;
-
     let page = Roff::new("corrupt", ManSection::Executable)
         .date("2021-12-25")
         .manual("General Commands Manual")

@@ -1,6 +1,5 @@
 use std::fmt::Write;
 
-#[derive(PartialEq, Eq)]
 /// Title line for a manpage.
 pub struct Title {
     title: String,
@@ -42,7 +41,6 @@ impl Troffable for Title {
 /// Manpage sections.
 ///
 /// The most common is [`ManSection::Executable`], and is the recommended default.
-#[derive(PartialEq, Eq)]
 pub enum ManSection {
     /// Executable programs or shell commands
     Executable,
@@ -80,7 +78,6 @@ impl ManSection {
     }
 }
 
-#[derive(PartialEq, Eq)]
 pub struct Roff {
     title: Title,
     content: Vec<Section>,
@@ -140,7 +137,6 @@ impl Troffable for Roff {
     }
 }
 
-#[derive(PartialEq, Eq)]
 struct Section {
     title: String,
     content: String,
