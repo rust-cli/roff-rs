@@ -1,11 +1,9 @@
 # roff-rs
 
+[![Build Status](https://github.com/rust-cli/roff-rs/workflows/pipeline/badge.svg)][CI]
 [![Documentation](https://img.shields.io/badge/docs-master-blue.svg)][Documentation]
 ![License](https://img.shields.io/crates/l/roff.svg)
 [![crates.io](https://img.shields.io/crates/v/roff.svg)][Crates.io]
-
-[Crates.io]: https://crates.io/crates/roff
-[Documentation]: https://docs.rs/roff/
 
 [Roff](http://man7.org/linux/man-pages/man7/roff.7.html) generation library.
 
@@ -98,3 +96,7 @@ Unless you explicitly state otherwise, any contribution intentionally
 submitted for inclusion in the work by you, as defined in the Apache-2.0
 license, shall be dual licensed as above, without any additional terms or
 conditions.
+
+[CI]: https://github.com/rust-cli/roff-rs/actions
+[Crates.io]: https://crates.io/crates/roff
+[Documentation]: https://docs.rs/roff/
