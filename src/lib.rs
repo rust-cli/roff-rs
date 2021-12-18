@@ -101,10 +101,7 @@ pub fn italic(input: &str) -> String {
     format!(r"\fI{}\fP", input)
 }
 
-pub fn list<'c1, 'c2, C1: Troffable, C2: Troffable>(
-    header: &'c1 [C1],
-    content: &'c2 [C2],
-) -> String {
+pub fn list<C1: Troffable, C2: Troffable>(header: &'_ [C1], content: &'_ [C2]) -> String {
     format!(".TP\n{}\n{}", header.render(), content.render())
 }
 
