@@ -31,5 +31,5 @@ pre-release-replacements = [
 [dependencies]
 
 [dev-dependencies]
-pretty_assertions = "0.6.1"
+pretty_assertions = "1.0.0"
 duct = "0.13"
