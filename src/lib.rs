@@ -38,7 +38,8 @@ impl Troffable for Roff {
             ".TH {} {}",
             self.title.to_uppercase(),
             self.section
-        ).unwrap();
+        )
+        .unwrap();
         for section in &self.content {
             writeln!(&mut res, "{}", escape(&section.render())).unwrap();
         }
