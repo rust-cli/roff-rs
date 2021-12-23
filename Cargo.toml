@@ -1,6 +1,6 @@
 [package]
 name = "roff"
-version = "0.2.0"
+version = "0.2.1"
 description = "ROFF (man page format) generation library"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/rust-cli/roff-rs"
