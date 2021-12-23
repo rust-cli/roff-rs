@@ -109,7 +109,7 @@ impl Roff {
         let mut buf = vec![];
         self.to_writer(&mut buf).unwrap(); // writing to a Vec always works
         std::str::from_utf8(&buf)
-            .expect("output is utf8 if all input is utf8 and our API guarentees that")
+            .expect("output is utf8 if all input is utf8 and our API guarantees that")
             .to_owned()
     }
 
