@@ -22,39 +22,6 @@
 use std::io::Write;
 use std::write;
 
-/// A preamble added to the start of rendered output.
-///
-/// This defines a string variable that contains an apostrophe. For
-/// historical reasons, there seems to be no other portable way to
-/// represent apostrophes across various implementations of the ROFF
-/// language. In implementations that produce output like PostScript
-/// or PDF, an apostrophe gets typeset as a right single quote, which
-/// looks different from an apostrophe. For terminal output ("ASCII"),
-/// such as when using nroff, an apostrophe looks indistinguishable
-/// from a right single quote. For manual pages, and similar content,
-/// an apostrophe is more generally desired than the right single
-/// quote, so we convert all apostrophe characters in input text into
-/// a use of the string variable defined in the preamble.
-///
-/// The special handling of apostrophes is avoided in the
-/// [`to_roff`](Roff::to_roff) method, but it's used in the
-/// [`render`](Roff::render) and [`to_writer`](Roff::to_writer)
-/// methods.
-///
-/// See: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=507673#65
-const APOSTROPHE_PREABMLE: &str = r#".ie \n(.g .ds Aq \(aq
-.el .ds Aq '
-"#;
-
-/// Use the apostrophe string variable.
-const APOSTROPHE: &str = r"\*(Aq";
-
-#[derive(Eq, PartialEq)]
-enum Apostrophes {
-    Handle,
-    DontHandle,
-}
-
 /// A ROFF document, consisting of lines.
 ///
 /// Lines are either control lines (requests that are built in, or
@@ -311,6 +278,39 @@ fn escape_inline(text: &str) -> String {
 fn escape_apostrophes(text: &str) -> String {
     text.replace('\'', APOSTROPHE)
 }
+
+#[derive(Eq, PartialEq)]
+enum Apostrophes {
+    Handle,
+    DontHandle,
+}
+
+/// Use the apostrophe string variable.
+const APOSTROPHE: &str = r"\*(Aq";
+
+/// A preamble added to the start of rendered output.
+///
+/// This defines a string variable that contains an apostrophe. For
+/// historical reasons, there seems to be no other portable way to
+/// represent apostrophes across various implementations of the ROFF
+/// language. In implementations that produce output like PostScript
+/// or PDF, an apostrophe gets typeset as a right single quote, which
+/// looks different from an apostrophe. For terminal output ("ASCII"),
+/// such as when using nroff, an apostrophe looks indistinguishable
+/// from a right single quote. For manual pages, and similar content,
+/// an apostrophe is more generally desired than the right single
+/// quote, so we convert all apostrophe characters in input text into
+/// a use of the string variable defined in the preamble.
+///
+/// The special handling of apostrophes is avoided in the
+/// [`to_roff`](Roff::to_roff) method, but it's used in the
+/// [`render`](Roff::render) and [`to_writer`](Roff::to_writer)
+/// methods.
+///
+/// See: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=507673#65
+const APOSTROPHE_PREABMLE: &str = r#".ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+"#;
 
 /// A part of a text line.
 ///
