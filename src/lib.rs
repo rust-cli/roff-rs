@@ -46,7 +46,7 @@ const APOSTROPHE_PREABMLE: &str = r#".ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 "#;
 
-// Use the apostrophe string variable.
+/// Use the apostrophe string variable.
 const APOSTROPHE: &str = r"\*(Aq";
 
 #[derive(Eq, PartialEq)]
@@ -210,9 +210,9 @@ impl Line {
         Self::Text(parts)
     }
 
-    // Generate a ROFF line.
-    //
-    // All the ROFF code generation and special handling happens here.
+    /// Generate a ROFF line.
+    ///
+    /// All the ROFF code generation and special handling happens here.
     fn render(
         &self,
         out: &mut dyn Write,
@@ -277,13 +277,13 @@ impl Line {
     }
 }
 
-// Does line start with a control character?
+/// Does line start with a control character?
 fn starts_with_cc(line: &str) -> bool {
     line.starts_with('.') || line.starts_with('\'')
 }
 
-// This quotes strings with spaces. This doesn't handle strings with
-// quotes in any way: there doesn't seem to a way to escape them.
+/// This quotes strings with spaces. This doesn't handle strings with
+/// quotes in any way: there doesn't seem to a way to escape them.
 fn escape_spaces(w: &str) -> String {
     if w.contains(' ') {
         format!("\"{}\"", w)
@@ -292,22 +292,22 @@ fn escape_spaces(w: &str) -> String {
     }
 }
 
-// Prevent leading periods or apostrophes on lines to be interpreted
-// as control lines. Note that this needs to be done for apostrophes
-// whether they need special handling for typesetting or not: a
-// leading apostrophe on a line indicates a control line.
+/// Prevent leading periods or apostrophes on lines to be interpreted
+/// as control lines. Note that this needs to be done for apostrophes
+/// whether they need special handling for typesetting or not: a
+/// leading apostrophe on a line indicates a control line.
 fn escape_leading_cc(s: &str) -> String {
     s.replace("\n.", "\n\\&.").replace("\n'", "\n\\&'")
 }
 
-// Escape anything that may be interpreted by the roff processor in a
-// text line: dashes and backslashes are escaped with a backslash.
-// Apostrophes are not handled.
+/// Escape anything that may be interpreted by the roff processor in a
+/// text line: dashes and backslashes are escaped with a backslash.
+/// Apostrophes are not handled.
 fn escape_inline(text: &str) -> String {
     text.replace(r"\", r"\\").replace('-', r"\-")
 }
 
-// Handle apostrophes.
+/// Handle apostrophes.
 fn escape_apostrophes(text: &str) -> String {
     text.replace('\'', APOSTROPHE)
 }
@@ -318,9 +318,10 @@ fn escape_apostrophes(text: &str) -> String {
 /// passed to ROFF. The text may contain newlines, but leading periods
 /// will be escaped so that they won't be interpreted by ROFF as
 /// control lines.
-// Note that the strings stored in the variants are stored as they're
-// received from the API user. The Line::render function handles
-// escaping etc.
+///
+/// Note that the strings stored in the variants are stored as they're
+/// received from the API user. The Line::render function handles
+/// escaping etc.
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub enum Inline {
     /// Text in the "roman" font, which is the normal font if nothing
