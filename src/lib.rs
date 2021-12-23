@@ -81,9 +81,8 @@ impl Roff {
     pub fn render(&self) -> String {
         let mut buf = vec![];
         self.to_writer(&mut buf).unwrap(); // writing to a Vec always works
-        std::str::from_utf8(&buf)
+        String::from_utf8(buf)
             .expect("output is utf8 if all input is utf8 and our API guarantees that")
-            .to_owned()
     }
 
     /// Write to a writer.
@@ -112,7 +111,8 @@ impl Roff {
             // Writing to a Vec always works, so we discard any error.
             line.render(&mut buf, Apostrophes::DontHandle).unwrap();
         }
-        String::from_utf8_lossy(&buf).into_owned()
+        String::from_utf8(buf)
+            .expect("output is utf8 if all input is utf8 and our API guarantees that")
     }
 }
 
