@@ -17,7 +17,7 @@
 //! [ROFF]: https://en.wikipedia.org/wiki/Roff_(software)
 //! [groff(7)]: https://manpages.debian.org/bullseye/groff/groff.7.en.html
 
-#![deny(missing_docs)]
+#![warn(missing_docs)]
 
 use std::io::Write;
 use std::write;
