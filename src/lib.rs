@@ -116,6 +116,65 @@ impl Roff {
     }
 }
 
+/// A part of a text line.
+///
+/// Text will be escaped for ROFF. No inline escape sequences will be
+/// passed to ROFF. The text may contain newlines, but leading periods
+/// will be escaped so that they won't be interpreted by ROFF as
+/// control lines.
+///
+/// Note that the strings stored in the variants are stored as they're
+/// received from the API user. The Line::render function handles
+/// escaping etc.
+#[derive(Debug, PartialEq, Eq, Clone)]
+pub enum Inline {
+    /// Text in the "roman" font, which is the normal font if nothing
+    /// else is specified.
+    Roman(String),
+
+    /// Text in the italic (slanted) font.
+    Italic(String),
+
+    /// Text in a bold face font.
+    Bold(String),
+
+    /// A hard line break. This is an inline element so it's easy to
+    /// insert a line break in a paragraph.
+    LineBreak,
+}
+
+/// Turn a string slice into inline text in the roman font.
+///
+/// This is equivalent to the [roman] function, but may be more
+/// convenient to use.
+impl From<&str> for Inline {
+    fn from(s: &str) -> Self {
+        roman(s)
+    }
+}
+
+/// Return some inline text in the "roman" font.
+///
+/// The roman font is the normal font, if no other font is chosen.
+pub fn roman(input: &str) -> Inline {
+    Inline::Roman(input.to_string())
+}
+
+/// Return some inline text in the bold font.
+pub fn bold(input: &str) -> Inline {
+    Inline::Bold(input.to_string())
+}
+
+/// Return some inline text in the italic font.
+pub fn italic(input: &str) -> Inline {
+    Inline::Italic(input.to_string())
+}
+
+/// Return an inline element for a hard line break.
+pub fn line_break() -> Inline {
+    Inline::LineBreak
+}
+
 /// A line in a ROFF document.
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub(crate) enum Line {
@@ -277,65 +336,6 @@ const APOSTROPHE: &str = r"\*(Aq";
 const APOSTROPHE_PREABMLE: &str = r#".ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 "#;
-
-/// A part of a text line.
-///
-/// Text will be escaped for ROFF. No inline escape sequences will be
-/// passed to ROFF. The text may contain newlines, but leading periods
-/// will be escaped so that they won't be interpreted by ROFF as
-/// control lines.
-///
-/// Note that the strings stored in the variants are stored as they're
-/// received from the API user. The Line::render function handles
-/// escaping etc.
-#[derive(Debug, PartialEq, Eq, Clone)]
-pub enum Inline {
-    /// Text in the "roman" font, which is the normal font if nothing
-    /// else is specified.
-    Roman(String),
-
-    /// Text in the italic (slanted) font.
-    Italic(String),
-
-    /// Text in a bold face font.
-    Bold(String),
-
-    /// A hard line break. This is an inline element so it's easy to
-    /// insert a line break in a paragraph.
-    LineBreak,
-}
-
-/// Turn a string slice into inline text in the roman font.
-///
-/// This is equivalent to the [roman] function, but may be more
-/// convenient to use.
-impl From<&str> for Inline {
-    fn from(s: &str) -> Self {
-        roman(s)
-    }
-}
-
-/// Return some inline text in the "roman" font.
-///
-/// The roman font is the normal font, if no other font is chosen.
-pub fn roman(input: &str) -> Inline {
-    Inline::Roman(input.to_string())
-}
-
-/// Return some inline text in the bold font.
-pub fn bold(input: &str) -> Inline {
-    Inline::Bold(input.to_string())
-}
-
-/// Return some inline text in the italic font.
-pub fn italic(input: &str) -> Inline {
-    Inline::Italic(input.to_string())
-}
-
-/// Return an inline element for a hard line break.
-pub fn line_break() -> Inline {
-    Inline::LineBreak
-}
 
 #[cfg(test)]
 mod test {
