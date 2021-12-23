@@ -15,7 +15,7 @@
 use roff::{bold, italic, roman, RoffBuilder};
 
 fn main() {
-    let page = RoffBuilder::default()
+    let page = RoffBuilder::new()
         .control("TH", ["CORRUPT", "1"])
         .control("SH", ["NAME"])
         .text([roman("corrupt - modify files by randomly changing bits")])

@@ -15,7 +15,7 @@ fn roff_to_ascii(input: &str) -> String {
 fn demo() {
     use roff::*;
 
-    let page = RoffBuilder::default()
+    let page = RoffBuilder::new()
         .control("TH", ["CORRUPT", "1"])
         .control("SH", ["NAME"])
         .text(vec![roman(

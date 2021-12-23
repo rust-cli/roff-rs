@@ -10,7 +10,7 @@
 //!
 //! ```
 //! # use roff::*;
-//! let doc = RoffBuilder::default().text(vec![roman("hello, world")]).build().render();
+//! let doc = RoffBuilder::new().text(vec![roman("hello, world")]).build().render();
 //! assert!(doc.ends_with("hello, world\n"));
 //! ```
 //!
@@ -31,7 +31,7 @@ use std::write;
 ///
 /// ```
 /// # use roff::*;
-/// let doc = RoffBuilder::default()
+/// let doc = RoffBuilder::new()
 ///     .control("TH", ["FOO", "1"])
 ///     .control("SH", ["NAME"])
 ///     .text([roman("foo - do a foo thing")])
@@ -45,6 +45,11 @@ pub struct Roff {
 }
 
 impl Roff {
+    /// Instantiate a `Roff`
+    pub fn new() -> Self {
+        Default::default()
+    }
+
     /// Append a control line.
     ///
     /// The line consist of the name of a built-in command or macro,
@@ -123,6 +128,11 @@ pub struct RoffBuilder {
 }
 
 impl RoffBuilder {
+    /// Instantiate a `RoffBuilder`
+    pub fn new() -> Self {
+        Default::default()
+    }
+
     /// Append a control line.
     ///
     /// The line consist of the name of a built-in command or macro,
@@ -402,48 +412,48 @@ mod test {
 
     #[test]
     fn render_roman() {
-        let text = RoffBuilder::default().text([roman("foo")]).build();
+        let text = RoffBuilder::new().text([roman("foo")]).build();
         assert_eq!(text.to_roff(), "foo\n");
     }
 
     #[test]
     fn render_dash() {
-        let text = RoffBuilder::default().text([roman("foo-bar")]).build();
+        let text = RoffBuilder::new().text([roman("foo-bar")]).build();
         assert_eq!(text.to_roff(), "foo\\-bar\n");
     }
 
     #[test]
     fn render_italic() {
-        let text = RoffBuilder::default().text([italic("foo")]).build();
+        let text = RoffBuilder::new().text([italic("foo")]).build();
         assert_eq!(text.to_roff(), "\\fIfoo\\fR\n");
     }
 
     #[test]
     fn render_bold() {
-        let text = RoffBuilder::default().text([bold("foo")]).build();
+        let text = RoffBuilder::new().text([bold("foo")]).build();
         assert_eq!(text.to_roff(), "\\fBfoo\\fR\n");
     }
 
     #[test]
     fn render_text() {
-        let text = RoffBuilder::default().text([roman("roman")]).build();
+        let text = RoffBuilder::new().text([roman("roman")]).build();
         assert_eq!(text.to_roff(), "roman\n");
     }
 
     #[test]
     fn render_text_with_leading_period() {
-        let text = RoffBuilder::default().text([roman(".roman")]).build();
+        let text = RoffBuilder::new().text([roman(".roman")]).build();
         assert_eq!(text.to_roff(), "\\&.roman\n");
     }
 
     #[test]
     fn render_text_with_newline_period() {
-        let text = RoffBuilder::default().text([roman("foo\n.roman")]).build();
+        let text = RoffBuilder::new().text([roman("foo\n.roman")]).build();
         assert_eq!(text.to_roff(), "foo\n\\&.roman\n");
     }
     #[test]
     fn render_line_break() {
-        let text = RoffBuilder::default()
+        let text = RoffBuilder::new()
             .text([roman("roman"), Inline::LineBreak, roman("more")])
             .build();
         assert_eq!(text.to_roff(), "roman\n.br\nmore\n");
@@ -451,7 +461,7 @@ mod test {
 
     #[test]
     fn render_control() {
-        let text = RoffBuilder::default()
+        let text = RoffBuilder::new()
             .control("foo", ["bar", "foo and bar"])
             .build();
         assert_eq!(text.to_roff(), ".foo bar \"foo and bar\"\n");
