@@ -116,51 +116,6 @@ impl Roff {
     }
 }
 
-/// Build a Roff.
-///
-/// This exists to make it more convenient to create a [`Roff`], by
-/// chaining [`control`](Builder::control) and [`text`](Builder::text)
-/// calls. With a `Roff`, the similar calls can't be chained. The
-/// chaining approach is more convenient when you can build the whole
-/// document at once.
-#[derive(Default)]
-pub struct RoffBuilder {
-    roff: Roff,
-}
-
-impl RoffBuilder {
-    /// Instantiate a `RoffBuilder`
-    pub fn new() -> Self {
-        Default::default()
-    }
-
-    /// Append a control line.
-    ///
-    /// The line consist of the name of a built-in command or macro,
-    /// and some number of arguments. Arguments that contain spaces
-    /// will be enclosed on double quotation marks.
-    pub fn control<'a>(mut self, name: &'a str, args: impl IntoIterator<Item = &'a str>) -> Self {
-        self.roff.control(name, args);
-        self
-    }
-
-    /// Append a text line.
-    ///
-    /// The line will be rendered in a way that ensures it can't be
-    /// interpreted as a control line. The caller does not need to
-    /// ensure, for example, that the line doesn't start with a
-    /// period ("`.`") or an apostrophe ("`'`").
-    pub fn text(mut self, inlines: impl Into<Vec<Inline>>) -> Self {
-        self.roff.text(inlines);
-        self
-    }
-
-    /// Return a built Roff.
-    pub fn build(self) -> Roff {
-        self.roff
-    }
-}
-
 /// A line in a ROFF document.
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub(crate) enum Line {
