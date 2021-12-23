@@ -116,6 +116,32 @@ impl Roff {
     }
 }
 
+impl<I: Into<Inline>> From<I> for Roff {
+    fn from(other: I) -> Self {
+        let mut r = Roff::new();
+        r.text([other.into()]);
+        r
+    }
+}
+
+impl<R: Into<Roff>> std::iter::FromIterator<R> for Roff {
+    fn from_iter<I: IntoIterator<Item = R>>(iter: I) -> Self {
+        let mut r = Roff::new();
+        for i in iter {
+            r.lines.extend(i.into().lines)
+        }
+        r
+    }
+}
+
+impl<R: Into<Roff>> Extend<R> for Roff {
+    fn extend<T: IntoIterator<Item = R>>(&mut self, iter: T) {
+        for i in iter {
+            self.lines.extend(i.into().lines)
+        }
+    }
+}
+
 /// A part of a text line.
 ///
 /// Text will be escaped for ROFF. No inline escape sequences will be
