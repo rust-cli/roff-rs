@@ -332,7 +332,7 @@ const APOSTROPHE: &str = r"\*(Aq";
 /// [`render`](Roff::render) and [`to_writer`](Roff::to_writer)
 /// methods.
 ///
-/// See: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=507673#65
+/// See: <https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=507673#65>
 const APOSTROPHE_PREABMLE: &str = r#".ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 "#;
