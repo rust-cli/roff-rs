@@ -10,7 +10,7 @@
 //!
 //! ```
 //! # use roff::*;
-//! let doc = RoffBuilder::new().text(vec![roman("hello, world")]).build().render();
+//! let doc = Roff::new().text(vec![roman("hello, world")]).render();
 //! assert!(doc.ends_with("hello, world\n"));
 //! ```
 //!
@@ -31,11 +31,10 @@ use std::write;
 ///
 /// ```
 /// # use roff::*;
-/// let doc = RoffBuilder::new()
+/// let doc = Roff::new()
 ///     .control("TH", ["FOO", "1"])
 ///     .control("SH", ["NAME"])
 ///     .text([roman("foo - do a foo thing")])
-///     .build()
 ///     .render();
 /// assert!(doc.ends_with(".TH FOO 1\n.SH NAME\nfoo \\- do a foo thing\n"));
 /// ```
@@ -59,11 +58,12 @@ impl Roff {
         &mut self,
         name: impl Into<String>,
         args: impl IntoIterator<Item = &'a str>,
-    ) {
+    ) -> &mut Self {
         self.lines.push(Line::control(
             name.into(),
             args.into_iter().map(|s| s.to_string()).collect(),
         ));
+        self
     }
 
     /// Append a text line.
@@ -72,8 +72,9 @@ impl Roff {
     /// interpreted as a control line. The caller does not need to
     /// ensure, for example, that the line doesn't start with a
     /// period ("`.`") or an apostrophe ("`'`").
-    pub fn text(&mut self, inlines: impl Into<Vec<Inline>>) {
+    pub fn text(&mut self, inlines: impl Into<Vec<Inline>>) -> &mut Self {
         self.lines.push(Line::text(inlines.into()));
+        self
     }
 
     /// Render as ROFF source text that can be fed to a ROFF implementation.
@@ -412,58 +413,56 @@ mod test {
 
     #[test]
     fn render_roman() {
-        let text = RoffBuilder::new().text([roman("foo")]).build();
-        assert_eq!(text.to_roff(), "foo\n");
+        let text = Roff::new().text([roman("foo")]).to_roff();
+        assert_eq!(text, "foo\n");
     }
 
     #[test]
     fn render_dash() {
-        let text = RoffBuilder::new().text([roman("foo-bar")]).build();
-        assert_eq!(text.to_roff(), "foo\\-bar\n");
+        let text = Roff::new().text([roman("foo-bar")]).to_roff();
+        assert_eq!(text, "foo\\-bar\n");
     }
 
     #[test]
     fn render_italic() {
-        let text = RoffBuilder::new().text([italic("foo")]).build();
-        assert_eq!(text.to_roff(), "\\fIfoo\\fR\n");
+        let text = Roff::new().text([italic("foo")]).to_roff();
+        assert_eq!(text, "\\fIfoo\\fR\n");
     }
 
     #[test]
     fn render_bold() {
-        let text = RoffBuilder::new().text([bold("foo")]).build();
-        assert_eq!(text.to_roff(), "\\fBfoo\\fR\n");
+        let text = Roff::new().text([bold("foo")]).to_roff();
+        assert_eq!(text, "\\fBfoo\\fR\n");
     }
 
     #[test]
     fn render_text() {
-        let text = RoffBuilder::new().text([roman("roman")]).build();
-        assert_eq!(text.to_roff(), "roman\n");
+        let text = Roff::new().text([roman("roman")]).to_roff();
+        assert_eq!(text, "roman\n");
     }
 
     #[test]
     fn render_text_with_leading_period() {
-        let text = RoffBuilder::new().text([roman(".roman")]).build();
-        assert_eq!(text.to_roff(), "\\&.roman\n");
+        let text = Roff::new().text([roman(".roman")]).to_roff();
+        assert_eq!(text, "\\&.roman\n");
     }
 
     #[test]
     fn render_text_with_newline_period() {
-        let text = RoffBuilder::new().text([roman("foo\n.roman")]).build();
-        assert_eq!(text.to_roff(), "foo\n\\&.roman\n");
+        let text = Roff::new().text([roman("foo\n.roman")]).to_roff();
+        assert_eq!(text, "foo\n\\&.roman\n");
     }
     #[test]
     fn render_line_break() {
-        let text = RoffBuilder::new()
+        let text = Roff::new()
             .text([roman("roman"), Inline::LineBreak, roman("more")])
-            .build();
-        assert_eq!(text.to_roff(), "roman\n.br\nmore\n");
+            .to_roff();
+        assert_eq!(text, "roman\n.br\nmore\n");
     }
 
     #[test]
     fn render_control() {
-        let text = RoffBuilder::new()
-            .control("foo", ["bar", "foo and bar"])
-            .build();
-        assert_eq!(text.to_roff(), ".foo bar \"foo and bar\"\n");
+        let text = Roff::new().control("foo", ["bar", "foo and bar"]).to_roff();
+        assert_eq!(text, ".foo bar \"foo and bar\"\n");
     }
 }

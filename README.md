@@ -12,10 +12,10 @@
 ## Examples
 
 ```rust
-use roff::{bold, italic, roman, RoffBuilder};
+use roff::{bold, italic, roman, Roff};
 
 fn main() {
-    let page = RoffBuilder::new()
+    let page = Roff::new()
         .control("TH", ["CORRUPT", "1"])
         .control("SH", ["NAME"])
         .text([roman("corrupt - modify files by randomly changing bits")])
@@ -28,9 +28,9 @@ fn main() {
         .control("SH", ["OPTIONS"])
         .control("TP", [])
         .text([bold("-n"), roman(", "), bold("--bits"), roman("="), italic("BITS")])
-        .text([roman("Set the number of bits to modify. Default is one bit.")])
-        .build();
-    print!("{}", page.render());
+        .text([roman("Set the number of bits to modify. Default is one bit.")]);
+        .render();
+    print!("{}", page);
 ```
 
 Which outputs:

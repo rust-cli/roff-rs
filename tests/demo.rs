@@ -15,7 +15,7 @@ fn roff_to_ascii(input: &str) -> String {
 fn demo() {
     use roff::*;
 
-    let page = RoffBuilder::new()
+    let page = Roff::new()
         .control("TH", ["CORRUPT", "1"])
         .control("SH", ["NAME"])
         .text(vec![roman(
@@ -58,14 +58,10 @@ fn demo() {
             "Set the number of bits to modify. ".into(),
             "Default is one bit.".into(),
         ])
-        .build();
-
-    // use std::io::Write;
-    // let mut f = ::std::fs::File::create("./tests/demo.generated.troff").unwrap();
-    // f.write_all(&page.render().as_bytes());
+        .to_roff();
 
     assert_eq!(
         roff_to_ascii(include_str!("./demo.troff")),
-        roff_to_ascii(&page.to_roff())
+        roff_to_ascii(&page)
     );
 }
