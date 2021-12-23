@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+### Breaking Changes
+
+The API changed to be a generic ROFF writer, taking care of
+escaping, etc.   At the moment, handling of control lines is left up to the
+caller
+
 ## [0.1.0] - 2018-05-08
 
 <!-- next-url -->
