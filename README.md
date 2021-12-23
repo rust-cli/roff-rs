@@ -12,75 +12,63 @@
 ## Examples
 
 ```rust
-use roff::*;
+use roff::{bold, italic, roman, RoffBuilder};
 
-let page = Roff::new("corrupt", 1)
-    .section("name", &["corrupt - modify files by randomly changing bits"])
-    .section("SYNOPSIS", &[
-        bold("corrupt"), " ".into(),
-        "[".into(), bold("-n"), " ".into(), italic("BITS"), "]".into(),
-        " ".into(),
-        "[".into(), bold("--bits"), " ".into(), italic("BITS"), "]".into(),
-        " ".into(),
-        italic("file"), "...".into(),
-    ])
-    .section("description", &[
-        bold("corrupt"),
-        " modifies files by toggling a randomly chosen bit.".into(),
-    ])
-    .section("options", &[
-        list(
-            &[bold("-n"), ", ".into(), bold("--bits"), "=".into(), italic("BITS")],
-            &[
-                "Set the number of bits to modify. ",
-                "Default is one bit.",
-            ]
-        ),
-    ]);
+fn main() {
+    let page = RoffBuilder::default()
+        .control("TH", ["CORRUPT", "1"])
+        .control("SH", ["NAME"])
+        .text([roman("corrupt - modify files by randomly changing bits")])
+        .control("SH", ["SYNOPSIS"])
+        .text([bold("corrupt"), roman(" ["), bold("-n"), roman(" "), italic("BITS"), roman("] ["),
+               bold("--bits"), roman(" "), italic("BITS"), roman("] "), italic("FILE"), roman("..."),
+        ])
+        .control("SH", ["DESCRIPTION"])
+        .text([bold("corrupt"), roman(" modifies files by toggling a randomly chosen bit.")])
+        .control("SH", ["OPTIONS"])
+        .control("TP", [])
+        .text([bold("-n"), roman(", "), bold("--bits"), roman("="), italic("BITS")])
+        .text([roman("Set the number of bits to modify. Default is one bit.")])
+        .build();
+    print!("{}", page.render());
 ```
 
 Which outputs:
 ```troff
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
 .TH CORRUPT 1
 .SH NAME
 corrupt \- modify files by randomly changing bits
 .SH SYNOPSIS
-.B corrupt
-[\fB\-n\fR \fIBITS\fR]
-[\fB\-\-bits\fR \fIBITS\fR]
-.IR file ...
+\fBcorrupt\fR [\fB\-n\fR \fIBITS\fR] [\fB\-\-bits\fR \fIBITS\fR] \fIFILE\fR...
 .SH DESCRIPTION
-.B corrupt
-modifies files by toggling a randomly chosen bit.
+\fBcorrupt\fR modifies files by toggling a randomly chosen bit.
 .SH OPTIONS
 .TP
-.BR \-n ", " \-\-bits =\fIBITS\fR
-Set the number of bits to modify.
-Default is one bit.
+\fB\-n\fR, \fB\-\-bits\fR=\fIBITS\fR
+Set the number of bits to modify. Default is one bit.
 ```
 
 Which will be shown by the `man(1)` command as:
 
 ```txt
-CORRUPT(1)  General Commands Manual  CORRUPT(1)
+CORRUPT(1)                 General Commands Manual                CORRUPT(1)
 
 NAME
-       corrupt   -  modify  files  by  randomly
-       changing bits
+       corrupt - modify files by randomly changing bits
 
 SYNOPSIS
-       corrupt [-n BITS] [--bits BITS] file...
+       corrupt [-n BITS] [--bits BITS] FILE...
 
 DESCRIPTION
-       corrupt modifies  files  by  toggling  a
-       randomly chosen bit.
+       corrupt modifies files by toggling a randomly chosen bit.
 
 OPTIONS
        -n, --bits=BITS
-              Set the number of bits to modify.
-              Default is one bit.
+              Set the number of bits to modify. Default is one bit.
 
-                                     CORRUPT(1)
+                                                                  CORRUPT(1)
 ```
 
 ## License
