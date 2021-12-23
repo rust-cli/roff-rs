@@ -147,8 +147,8 @@ pub enum Inline {
 ///
 /// This is equivalent to the [roman] function, but may be more
 /// convenient to use.
-impl From<&str> for Inline {
-    fn from(s: &str) -> Self {
+impl<S: Into<String>> From<S> for Inline {
+    fn from(s: S) -> Self {
         roman(s)
     }
 }
@@ -156,18 +156,18 @@ impl From<&str> for Inline {
 /// Return some inline text in the "roman" font.
 ///
 /// The roman font is the normal font, if no other font is chosen.
-pub fn roman(input: &str) -> Inline {
-    Inline::Roman(input.to_string())
+pub fn roman(input: impl Into<String>) -> Inline {
+    Inline::Roman(input.into())
 }
 
 /// Return some inline text in the bold font.
-pub fn bold(input: &str) -> Inline {
-    Inline::Bold(input.to_string())
+pub fn bold(input: impl Into<String>) -> Inline {
+    Inline::Bold(input.into())
 }
 
 /// Return some inline text in the italic font.
-pub fn italic(input: &str) -> Inline {
-    Inline::Italic(input.to_string())
+pub fn italic(input: impl Into<String>) -> Inline {
+    Inline::Italic(input.into())
 }
 
 /// Return an inline element for a hard line break.
