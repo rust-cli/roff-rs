@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+### Features
+
+- Allow building up Roffs from each other
+
 ## [0.2.0] - 2021-12-23
 
 ### Breaking Changes
