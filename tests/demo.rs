@@ -1,6 +1,7 @@
 use pretty_assertions::assert_eq;
 
 #[test]
+#[cfg(unix)]
 fn demo() {
     use roff::*;
 
