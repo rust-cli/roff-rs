@@ -1,17 +1,7 @@
-extern crate duct;
-extern crate roff;
-#[macro_use]
-extern crate pretty_assertions;
-
-fn roff_to_ascii(input: &str) -> String {
-    duct::cmd("troff", &["-a", "-mman"])
-        .stdin_bytes(input)
-        .stdout_capture()
-        .read()
-        .unwrap()
-}
+use pretty_assertions::assert_eq;
 
 #[test]
+#[cfg(unix)]
 fn demo() {
     use roff::*;
 
@@ -64,4 +54,12 @@ fn demo() {
         roff_to_ascii(include_str!("./demo.troff")),
         roff_to_ascii(&page)
     );
+}
+
+fn roff_to_ascii(input: &str) -> String {
+    duct::cmd("troff", &["-a", "-mman"])
+        .stdin_bytes(input)
+        .stdout_capture()
+        .read()
+        .unwrap()
 }

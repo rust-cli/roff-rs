@@ -9,6 +9,7 @@ documentation = "https://docs.rs/roff"
 readme = "README.md"
 categories = ["development-tools::testing"]
 keywords = ["cli", "man", "roff"]
+edition = "2018"
 include = [
   "build.rs",
   "src/**/*",
