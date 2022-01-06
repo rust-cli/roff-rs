@@ -1,13 +1,5 @@
 use pretty_assertions::assert_eq;
 
-fn roff_to_ascii(input: &str) -> String {
-    duct::cmd("troff", &["-a", "-mman"])
-        .stdin_bytes(input)
-        .stdout_capture()
-        .read()
-        .unwrap()
-}
-
 #[test]
 fn demo() {
     use roff::*;
@@ -61,4 +53,12 @@ fn demo() {
         roff_to_ascii(include_str!("./demo.troff")),
         roff_to_ascii(&page)
     );
+}
+
+fn roff_to_ascii(input: &str) -> String {
+    duct::cmd("troff", &["-a", "-mman"])
+        .stdin_bytes(input)
+        .stdout_capture()
+        .read()
+        .unwrap()
 }
