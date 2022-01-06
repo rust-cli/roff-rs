@@ -1,7 +1,4 @@
-extern crate duct;
-extern crate roff;
-#[macro_use]
-extern crate pretty_assertions;
+use pretty_assertions::assert_eq;
 
 fn roff_to_ascii(input: &str) -> String {
     duct::cmd("troff", &["-a", "-mman"])
