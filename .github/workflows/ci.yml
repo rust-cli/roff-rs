@@ -26,7 +26,6 @@ jobs:
         run: exit 0
   test:
     name: Test
-    needs: smoke
     strategy:
       matrix:
         # TODO: Get working on all platforms
