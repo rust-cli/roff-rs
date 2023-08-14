@@ -18,6 +18,7 @@
 //! [groff(7)]: https://manpages.debian.org/bullseye/groff/groff.7.en.html
 
 #![warn(missing_docs)]
+#![cfg_attr(docsrs, feature(doc_auto_cfg))]
 
 use std::io::Write;
 use std::write;
@@ -322,7 +323,7 @@ fn escape_leading_cc(s: &str) -> String {
 /// text line: dashes and backslashes are escaped with a backslash.
 /// Apostrophes are not handled.
 fn escape_inline(text: &str) -> String {
-    text.replace(r"\", r"\\").replace('-', r"\-")
+    text.replace('\\', r"\\").replace('-', r"\-")
 }
 
 /// Handle apostrophes.

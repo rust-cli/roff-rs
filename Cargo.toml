@@ -1,24 +1,38 @@
-[package]
-name = "roff"
-version = "0.2.1"
-description = "ROFF (man page format) generation library"
+[workspace]
+resolver = "2"
+
+[workspace.package]
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/rust-cli/roff-rs"
-homepage = "https://github.com/rust-cli/roff-rs"
-documentation = "https://docs.rs/roff"
-readme = "README.md"
-categories = ["development-tools::testing"]
-keywords = ["cli", "man", "roff"]
-edition = "2018"
+edition = "2021"
+rust-version = "1.64.0"  # MSRV
 include = [
   "build.rs",
   "src/**/*",
   "Cargo.toml",
+  "Cargo.lock",
   "LICENSE*",
   "README.md",
   "benches/**/*",
   "examples/**/*"
 ]
+
+[package]
+name = "roff"
+version = "0.2.1"
+description = "ROFF (man page format) generation library"
+repository = "https://github.com/rust-cli/roff-rs"
+homepage = "https://github.com/rust-cli/roff-rs"
+documentation = "https://docs.rs/roff"
+readme = "README.md"
+categories = ["development-tools::testing"]
+license.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+include.workspace = true
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [package.metadata.release]
 pre-release-replacements = [
