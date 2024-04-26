@@ -17,8 +17,10 @@
 //! [ROFF]: https://en.wikipedia.org/wiki/Roff_(software)
 //! [groff(7)]: https://manpages.debian.org/bullseye/groff/groff.7.en.html
 
-#![warn(missing_docs)]
 #![cfg_attr(docsrs, feature(doc_auto_cfg))]
+#![warn(missing_docs)]
+#![warn(clippy::print_stderr)]
+#![warn(clippy::print_stdout)]
 
 use std::io::Write;
 use std::write;
@@ -62,7 +64,7 @@ impl Roff {
     ) -> &mut Self {
         self.lines.push(Line::control(
             name.into(),
-            args.into_iter().map(|s| s.to_string()).collect(),
+            args.into_iter().map(|s| s.to_owned()).collect(),
         ));
         self
     }
@@ -125,11 +127,11 @@ impl<I: Into<Inline>> From<I> for Roff {
     }
 }
 
-impl<R: Into<Roff>> std::iter::FromIterator<R> for Roff {
+impl<R: Into<Roff>> FromIterator<R> for Roff {
     fn from_iter<I: IntoIterator<Item = R>>(iter: I) -> Self {
         let mut r = Roff::new();
         for i in iter {
-            r.lines.extend(i.into().lines)
+            r.lines.extend(i.into().lines);
         }
         r
     }
@@ -138,7 +140,7 @@ impl<R: Into<Roff>> std::iter::FromIterator<R> for Roff {
 impl<R: Into<Roff>> Extend<R> for Roff {
     fn extend<T: IntoIterator<Item = R>>(&mut self, iter: T) {
         for i in iter {
-            self.lines.extend(i.into().lines)
+            self.lines.extend(i.into().lines);
         }
     }
 }
@@ -151,7 +153,7 @@ impl<R: Into<Roff>> Extend<R> for Roff {
 /// control lines.
 ///
 /// Note that the strings stored in the variants are stored as they're
-/// received from the API user. The Line::render function handles
+/// received from the API user. The `Line::render` function handles
 /// escaping etc.
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub enum Inline {
@@ -261,7 +263,7 @@ impl Line {
                         Inline::Roman(text) | Inline::Italic(text) | Inline::Bold(text) => {
                             let mut text = escape_inline(text);
                             if handle_apostrophes == Apostrophes::Handle {
-                                text = escape_apostrophes(&text)
+                                text = escape_apostrophes(&text);
                             };
                             let text = escape_leading_cc(&text);
                             if let Inline::Bold(_) = inline {
@@ -307,7 +309,7 @@ fn escape_spaces(w: &str) -> String {
     if w.contains(' ') {
         format!("\"{}\"", w)
     } else {
-        w.to_string()
+        w.to_owned()
     }
 }
 
@@ -345,7 +347,7 @@ const APOSTROPHE: &str = r"\*(Aq";
 /// This defines a string variable that contains an apostrophe. For
 /// historical reasons, there seems to be no other portable way to
 /// represent apostrophes across various implementations of the ROFF
-/// language. In implementations that produce output like PostScript
+/// language. In implementations that produce output like `PostScript`
 /// or PDF, an apostrophe gets typeset as a right single quote, which
 /// looks different from an apostrophe. For terminal output ("ASCII"),
 /// such as when using nroff, an apostrophe looks indistinguishable
