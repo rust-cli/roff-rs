@@ -88,7 +88,7 @@ zero_sized_map_values = "warn"
 
 [package]
 name = "roff"
-version = "0.2.1"
+version = "0.2.2"
 description = "ROFF (man page format) generation library"
 repository = "https://github.com/rust-cli/roff-rs"
 homepage = "https://github.com/rust-cli/roff-rs"
