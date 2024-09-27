@@ -241,7 +241,7 @@ impl Line {
     ) -> Result<(), std::io::Error> {
         match self {
             Self::Control { name, args } => {
-                write!(out, ".{}", name)?;
+                write!(out, ".{name}")?;
                 for arg in args {
                     write!(out, " {}", &escape_spaces(arg))?;
                 }
@@ -267,9 +267,9 @@ impl Line {
                             };
                             let text = escape_leading_cc(&text);
                             if let Inline::Bold(_) = inline {
-                                write!(out, r"\fB{}\fR", text)?;
+                                write!(out, r"\fB{text}\fR")?;
                             } else if let Inline::Italic(_) = inline {
-                                write!(out, r"\fI{}\fR", text)?;
+                                write!(out, r"\fI{text}\fR")?;
                             } else {
                                 if at_line_start && starts_with_cc(&text) {
                                     // Line would start with a period, so we
@@ -285,7 +285,7 @@ impl Line {
                                     // line.
                                     write!(out, r"\&").unwrap();
                                 }
-                                write!(out, "{}", text)?;
+                                write!(out, "{text}")?;
                             }
                         }
                     }
@@ -307,7 +307,7 @@ fn starts_with_cc(line: &str) -> bool {
 /// quotes in any way: there doesn't seem to a way to escape them.
 fn escape_spaces(w: &str) -> String {
     if w.contains(' ') {
-        format!("\"{}\"", w)
+        format!("\"{w}\"")
     } else {
         w.to_owned()
     }
