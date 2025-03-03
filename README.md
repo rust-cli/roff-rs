@@ -28,9 +28,10 @@ fn main() {
         .control("SH", ["OPTIONS"])
         .control("TP", [])
         .text([bold("-n"), roman(", "), bold("--bits"), roman("="), italic("BITS")])
-        .text([roman("Set the number of bits to modify. Default is one bit.")]);
+        .text([roman("Set the number of bits to modify. Default is one bit.")])
         .render();
     print!("{}", page);
+}
 ```
 
 Which outputs:
@@ -84,5 +85,5 @@ at your option.
 
 Unless you explicitly state otherwise, any contribution intentionally
 submitted for inclusion in the work by you, as defined in the Apache-2.0
-license, shall be dual licensed as above, without any additional terms or
+license, shall be dual-licensed as above, without any additional terms or
 conditions.
