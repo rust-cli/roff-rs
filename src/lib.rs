@@ -450,3 +450,7 @@ mod test {
         assert_eq!(text, ".foo bar \"foo and bar\"\n");
     }
 }
+
+#[doc = include_str!("../README.md")]
+#[cfg(doctest)]
+pub struct ReadmeDoctests;
