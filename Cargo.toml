@@ -96,7 +96,7 @@ lto = true
 
 [package]
 name = "roff"
-version = "1.0.0"
+version = "1.1.0"
 description = "ROFF (man page format) generation library"
 homepage = "https://github.com/rust-cli/roff-rs"
 documentation = "https://docs.rs/roff"
