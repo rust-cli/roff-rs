@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+## [1.1.1] - 2026-03-28
+
 ## [1.1.0] - 2026-03-12
 
 ### Compatibility
@@ -38,7 +40,8 @@ caller
 ## [0.1.0] - 2018-05-08
 
 <!-- next-url -->
-[Unreleased]: https://github.com/rust-cli/roff-rs/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/rust-cli/roff-rs/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/rust-cli/roff-rs/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/rust-cli/roff-rs/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/rust-cli/roff-rs/compare/v0.2.2...v1.0.0
 [0.2.2]: https://github.com/rust-cli/roff-rs/compare/v0.2.1...v0.2.2
