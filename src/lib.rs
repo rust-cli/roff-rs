@@ -243,7 +243,7 @@ impl Line {
             Self::Control { name, args } => {
                 write!(out, ".{name}")?;
                 for arg in args {
-                    write!(out, " {}", &escape_spaces(arg))?;
+                    write!(out, " {}", escape_spaces(arg))?;
                 }
             }
             Self::Text(inlines) => {
