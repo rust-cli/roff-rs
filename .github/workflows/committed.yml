@@ -26,4 +26,4 @@ jobs:
         fetch-depth: 0
         persist-credentials: false
     - name: Lint Commits
-      uses: crate-ci/committed@8ac247070cdd57589d801e7b33cfaf4d92bcd994 # master
+      uses: crate-ci/committed@1eca0839e74d69e193b59a5c8787ab52397a9168 # master
