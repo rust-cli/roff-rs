@@ -121,15 +121,15 @@ impl Roff {
 
 impl<I: Into<Inline>> From<I> for Roff {
     fn from(other: I) -> Self {
-        let mut r = Roff::new();
+        let mut r = Self::new();
         r.text([other.into()]);
         r
     }
 }
 
-impl<R: Into<Roff>> FromIterator<R> for Roff {
+impl<R: Into<Self>> FromIterator<R> for Roff {
     fn from_iter<I: IntoIterator<Item = R>>(iter: I) -> Self {
-        let mut r = Roff::new();
+        let mut r = Self::new();
         for i in iter {
             r.lines.extend(i.into().lines);
         }
@@ -137,7 +137,7 @@ impl<R: Into<Roff>> FromIterator<R> for Roff {
     }
 }
 
-impl<R: Into<Roff>> Extend<R> for Roff {
+impl<R: Into<Self>> Extend<R> for Roff {
     fn extend<T: IntoIterator<Item = R>>(&mut self, iter: T) {
         for i in iter {
             self.lines.extend(i.into().lines);
