@@ -1,6 +1,6 @@
 # roff-rs
 
-[![Documentation](https://img.shields.io/badge/docs-master-blue.svg)][Documentation]
+[![Documentation](https://img.shields.io/badge/docs-main-blue.svg)][Documentation]
 ![License](https://img.shields.io/crates/l/roff.svg)
 [![crates.io](https://img.shields.io/crates/v/roff.svg)][Crates.io]
 
